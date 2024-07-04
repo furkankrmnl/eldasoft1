@@ -37,13 +37,23 @@ namespace YourNamespace.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Sale>> PostSale(Sale sale)
+        public async Task<ActionResult<Sale>> PostSale(SaleDTO saleDto)
         {
+            var sale = new Sale
+            {
+                CustomerID = saleDto.CustomerID,
+                BookID = saleDto.BookID,
+                Quantity = saleDto.Quantity,
+                TotalPrice = saleDto.TotalPrice,
+                SaleDate = saleDto.SaleDate
+            };
+
             _context.Sales.Add(sale);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetSale", new { id = sale.SaleID }, sale);
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSale(int id, Sale sale)

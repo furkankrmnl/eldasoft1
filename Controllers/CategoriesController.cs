@@ -37,13 +37,19 @@ namespace YourNamespace.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<Category>> PostCategory(CategoryDTO categoryDto)
         {
+            var category = new Category
+            {
+                CategoryName = categoryDto.CategoryName
+            };
+
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCategory", new { id = category.CategoryID }, category);
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, Category category)
